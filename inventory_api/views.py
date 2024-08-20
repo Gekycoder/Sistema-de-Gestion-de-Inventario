@@ -2,6 +2,7 @@ from rest_framework import viewsets
 from drf_spectacular.utils import extend_schema_view, extend_schema
 from .models import Producto
 from .serializers import ProductoSerializer
+from .login import login_view
 
 @extend_schema_view(
     list=extend_schema(description="Permite obtener una lista de productos."),

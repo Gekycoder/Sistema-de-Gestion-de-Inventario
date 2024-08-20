@@ -1,0 +1,368 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f5f5f5; 
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.card {
+    width: 25rem;
+    height: 350px;
+    perspective: 1000px; /* Para habilitar el efecto 3D */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-inner {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s ease-in-out;
+    transform-style: preserve-3d;
+    position: relative;
+}
+
+.card-front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 35px;
+    padding: 20px;
+    box-shadow: 16px 16px 32px #c8c8c8, -16px -16px 32px #fefefe;
+}
+
+.card-back {
+    position: absolute;
+    width: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 35px;
+    padding: 20px;
+    box-shadow: 16px 16px 32px #c8c8c8, -16px -16px 32px #fefefe;
+}
+
+.card-front {
+    background: #e3e3e3;
+    color: black;
+}
+
+.card-back {
+    background: #e3e3e3;
+    color: black;
+    transform: rotateY(180deg);
+}
+
+.card.flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+.login {
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: block;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.registro {
+    color: #000;
+    margin-top: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: block;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.inputBox {
+    position: relative;
+    width: 250px;
+}
+
+.inputBox input {
+    width: 100%;
+    padding: 10px;
+    outline: none;
+    border: none;
+    color: #000;
+    font-size: 1em;
+    background: transparent;
+    border-left: 2px solid #000;
+    border-bottom: 2px solid #000;
+    transition: 0.1s;
+    border-bottom-left-radius: 8px;
+}
+
+.inputBox span {
+    margin-top: 5px;
+    position: absolute;
+    left: 0;
+    transform: translateY(-4px);
+    margin-left: 10px;
+    padding: 10px;
+    pointer-events: none;
+    font-size: 12px;
+    color: #000;
+    text-transform: uppercase;
+    transition: 0.5s;
+    letter-spacing: 3px;
+    border-radius: 8px;
+}
+
+.inputBox input:valid~span,
+.inputBox input:focus~span {
+    transform: translateX(113px) translateY(-15px);
+    font-size: 0.8em;
+    padding: 5px 10px;
+    background: #000;
+    letter-spacing: 0.2em;
+    color: #fff;
+    border: 2px;
+}
+
+.inputBox input:valid,
+.inputBox input:focus {
+    border: 2px solid #000;
+    border-radius: 8px;
+}
+
+.enter {
+    height: 45px;
+    width: 100px;
+    border-radius: 5px;
+    border: 2px solid #000;
+    cursor: pointer;
+    background-color: transparent;
+    transition: 0.5s;
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+.signup {
+    padding: 0.8rem;
+    width: 8rem;
+    border-radius: 5px;
+    border: 2px solid #000;
+    cursor: pointer;
+    background-color: transparent;
+    transition: 0.5s;
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+.enter:hover,
+.signup:hover {
+    background-color: rgb(0, 0, 0);
+    color: white;
+}
+
+.toggle-form {
+    margin-top: 10px;
+    font-size: 0.9em;
+}
+
+.toggle-form a {
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.toggle-form a:hover {
+    color: #333;
+}
+
+/* Modo oscuro */
+body.dark-mode, html.dark-mode {
+    background-color: #121212;
+}
+
+.card.dark-mode {
+    background: #333;
+    color: white;
+}
+
+.card.dark-mode .inputBox input {
+    color: #fff;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+}
+
+.card.dark-mode .inputBox span {
+    color: #fff;
+}
+
+.card.dark-mode .enter {
+    border: 2px solid #fff;
+}
+
+.card.dark-mode .enter:hover {
+    background-color: #fff;
+    color: black;
+}
+
+/* Modo oscuro */
+
+body.dark-mode, html.dark-mode {
+    background-color: #121212;
+}
+
+.card.dark-mode {
+    background: #333;
+    color: white;
+}
+
+.card.dark-mode .inputBox input {
+    color: #fff;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+}
+
+.card.dark-mode .inputBox span {
+    color: #fff;
+}
+
+.card.dark-mode .enter,
+.card.dark-mode .signup {
+    border: 2px solid #fff;
+}
+
+.card.dark-mode .enter:hover,
+.card.dark-mode .signup:hover {
+    background-color: #fff;
+    color: black;
+}
+
+/* Estilos específicos para la parte frontal y trasera de la tarjeta en modo oscuro */
+body.dark-mode .card-front,
+body.dark-mode .card-back {
+    background: #333;
+    color: white;
+    box-shadow: 16px 16px 32px #1c1c1c, -16px -16px 32px #444;
+}
+
+body.dark-mode .login,
+body.dark-mode .registro,
+body.dark-mode .inputBox span {
+    color: #fefefe;
+}
+
+body.dark-mode .toggle-form a {
+    color: #fefefe;
+}
+
+body.dark-mode .toggle-form a:hover {
+    color: #cccccc;
+}
+
+body.dark-mode .inputBox input {
+    color: #fefefe;
+    border-left: 2px solid #fefefe;
+    border-bottom: 2px solid #fefefe;
+}
+
+body.dark-mode .inputBox input:valid~span,
+body.dark-mode .inputBox input:focus~span {
+    background: #fefefe;
+    color: #111;
+}
+
+body.dark-mode .enter,
+body.dark-mode .signup {
+    border: 2px solid #fefefe;
+    color: #fefefe;
+}
+
+body.dark-mode .enter:hover,
+body.dark-mode .signup:hover {
+    background-color: #fefefe;
+    color: #111;
+}
+
+/* Switch de Modo Oscuro */
+
+.switch {
+    --input-focus: #2d8cf0;
+    --font-color: #fefefe;
+    --font-color-sub: #7e7e7e;
+    --bg-color: #111;
+    --bg-color-alt: #7e7e7e;
+    --main-color: #fefefe;
+
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    width: 50px;
+    height: 20px;
+    z-index: 1000;
+}
+
+.toggle {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: 2px solid var(--main-color);
+    box-shadow: 4px 4px var(--main-color);
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--bg-color);
+    transition: 0.3s;
+}
+
+.slider:before {
+    box-sizing: border-box;
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    border: 2px solid var(--main-color);
+    border-radius: 5px;
+    left: -2px;
+    bottom: 2px;
+    background-color: var(--bg-color);
+    box-shadow: 0 3px 0 var(--main-color);
+    transition: 0.3s;
+}
+
+.toggle:checked + .slider {
+    background-color: var(--input-focus);
+}
+
+.toggle:checked + .slider:before {
+    transform: translateX(30px);
+}
