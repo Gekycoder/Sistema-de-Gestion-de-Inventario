@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Productos</title>
+    <link rel="icon" href="{% static 'img/GRUPONUEVEONCE_cp_rgb.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/inventario.css' %}">
+    <link rel="stylesheet" href="{% static 'css/token_exp.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div id="session-timer" style="position: absolute; top: 10px; right: 10px;">
+            Tiempo restante de la sesión: <span id="timer"></span>
+        </div>
+        
+        <h1>Gestión de Productos</h1>
+
+        <div class="nav">
+            <button id="listar-btn">Listar Productos</button>
+            <button id="crear-btn">Crear Producto</button>
+            <button id="editar-btn">Editar Producto</button>
+            <button id="eliminar-btn">Eliminar Producto</button>
+            <input type="text" id="buscar-input" placeholder="Buscar por nombre">
+            <button id="buscar-btn">Buscar</button>
+        </div>
+
+        <div id="content">
+            <!-- Aquí se cargará el contenido dinámicamente -->
+            <div id="listar-productos" class="content-section" style="display:none;">
+                <h2>Lista de Productos</h2>
+                <table id="productos-table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Categoría</th>
+                            <th>Descripción</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Los productos se cargarán aquí -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="crear-producto" class="content-section" style="display:none;">
+                <h2>Crear Producto</h2>
+                <form id="crear-form">
+                    {% csrf_token %}
+                    <input type="text" name="nombre" placeholder="Nombre del producto" required>
+                    <input type="text" name="categoria" placeholder="Categoría" required>
+                    <textarea name="descripcion" placeholder="Descripción"></textarea>
+                    <input type="number" name="precio" placeholder="Precio" required>
+                    <input type="number" name="cantidad_disponible" placeholder="Cantidad disponible" required>
+                    <button type="submit">Crear</button>
+                </form>
+            </div>
+
+            <div id="editar-producto" class="content-section" style="display:none;">
+                <h2>Editar Producto</h2>
+                <form id="editar-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="id">
+                    <input type="text" name="nombre" placeholder="Nombre del producto" required>
+                    <input type="text" name="categoria" placeholder="Categoría" required>
+                    <textarea name="descripcion" placeholder="Descripción"></textarea>
+                    <input type="number" name="precio" placeholder="Precio" required>
+                    <input type="number" name="cantidad_disponible" placeholder="Cantidad disponible" required>
+                    <button type="submit">Actualizar</button>
+                </form>
+            </div>
+
+            <div id="eliminar-producto" class="content-section" style="display:none;">
+                <h2>Eliminar Producto</h2>
+                <form id="eliminar-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="id">
+                    <p>¿Estás seguro de que deseas eliminar este producto?</p>
+                    <button type="submit">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    
+    <script src="{% static 'js/auth.js' %}"></script>
+    <script src="{% static 'js/inventario.js' %}"></script>
+    
+</body>
+</html>

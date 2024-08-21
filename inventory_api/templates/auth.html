@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de gestión de inventario</title>
+    <link rel="icon" href="{% static 'img/GRUPONUEVEONCE_cp_rgb.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-inner">
+                <!-- Formulario de inicio de sesión -->
+                <div class="card-front">
+                    <a class="login">Inicio de sesión</a>
+                    <form method="POST" action="{% url 'auth' %}">
+                        {% csrf_token %}
+                        <div class="inputBox">
+                            <input type="text" name="username" required="required">
+                            <span class="user">Nombre de usuario</span>
+                        </div>
+
+                        <div class="inputBox">
+                            <input type="password" name="password" required="required">
+                            <span>Contraseña</span>
+                        </div>
+
+                        <button type="submit" name="login" class="enter">Ingresar</button>
+
+                        <!-- Mensajes de error -->
+                        {% if messages %}
+                            <div class="messages">
+                                {% for message in messages %}
+                                    <div class="alert {{ message.tags }}">{{ message }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        <p class="toggle-form">¿No tienes cuenta? <a href="#" id="show-register">Regístrate</a></p>
+                    </form>
+                </div>
+
+                <!-- Formulario de registro -->
+                <div class="card-back">
+                    <a class="registro">Registro</a>
+                    <form method="POST" action="{% url 'auth' %}">
+                        {% csrf_token %}
+                        <div class="inputBox">
+                            <input type="text" name="username" required="required">
+                            <span class="user">Nombre de usuario</span>
+                        </div>
+                        <div class="inputBox">
+                            <input type="password" name="password1" required="required">
+                            <span>Contraseña</span>
+                        </div>
+                        <div class="inputBox">
+                            <input type="password" name="password2" required="required">
+                            <span>Confirmar Contraseña</span>
+                        </div>
+                        <button type="submit" name="register" class="signup">Registrarse</button>
+
+                        <!-- Mensajes de error -->
+                        {% if messages %}
+                            <div class="messages">
+                                {% for message in messages %}
+                                    <div class="alert {{ message.tags }}">{{ message }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        <p class="toggle-form">¿Ya tienes cuenta? <a href="#" id="show-login">Inicia sesión</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <label class="switch">
+        <input type="checkbox" class="toggle" id="dark-mode-toggle">
+        <span class="slider"></span>
+        <span class="card-side"></span>
+    </label>
+    
+    <script src="{% static 'js/darkmode_button.js' %}"></script>
+    <script src="{% static 'js/form_toggle.js' %}"></script>
+</body>
+</html>
