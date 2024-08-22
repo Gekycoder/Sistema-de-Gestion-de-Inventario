@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const contentSections = document.querySelectorAll('.content-section');
     const listarBtn = document.getElementById('listar-btn');
     const crearBtn = document.getElementById('crear-btn');
-    const editarBtn = document.getElementById('editar-btn');
     const eliminarBtn = document.getElementById('eliminar-btn');
     const buscarBtn = document.getElementById('buscar-btn');
     const buscarInput = document.getElementById('buscar-input');
@@ -33,15 +32,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
     listarBtn.addEventListener('click', function() {
         showSection('listar-productos');
+        const overlay = document.getElementById('overlay');
+        overlay.style.display = 'block';
+        const listarModal = document.getElementById('listar-productos');
+        listarModal.style.display = 'block';
         fetchProductos();
     });
 
     crearBtn.addEventListener('click', function() {
         showSection('crear-producto');
-    });
-
-    editarBtn.addEventListener('click', function() {
-        showSection('editar-producto');
     });
 
     eliminarBtn.addEventListener('click', function() {
@@ -73,6 +72,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 data.forEach(producto => {
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
+                        <td>${producto.id}</td>
                         <td>${producto.nombre}</td>
                         <td>${producto.categoria}</td>
                         <td>${producto.descripcion}</td>
@@ -93,8 +93,9 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     document.getElementById('crear-form').addEventListener('submit', function(event) {
-        event.preventDefault();
+        event.preventDefault(); // Prevenir el comportamiento predeterminado del formulario
         const formData = new FormData(this);
+    
         fetchWithToken('/api/productos/', {
             method: 'POST',
             body: formData,
@@ -102,6 +103,7 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(response => response.json())
         .then(data => {
             alert('Producto creado exitosamente');
+            this.reset(); // Limpiar todos los campos del formulario
             listarBtn.click();  // Vuelve a la lista de productos
         })
         .catch(error => {
@@ -109,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function() {
             alert('Error al crear producto. Por favor, intenta de nuevo.');
         });
     });
-
+    
     document.getElementById('editar-form').addEventListener('submit', function(event) {
         event.preventDefault();
         const formData = new FormData(this);
@@ -117,7 +119,13 @@ document.addEventListener("DOMContentLoaded", function() {
             method: 'PUT',
             body: formData,
         })
-        .then(response => response.json())
+        .then(response => {
+            // Verifica si la respuesta es JSON
+            if (!response.ok) {
+                return response.text().then(text => { throw new Error(text); });
+            }
+            return response.json();
+        })
         .then(data => {
             alert('Producto actualizado exitosamente');
             listarBtn.click();  // Vuelve a la lista de productos
@@ -126,7 +134,7 @@ document.addEventListener("DOMContentLoaded", function() {
             console.error('Error al actualizar producto:', error);
             alert('Error al actualizar producto. Por favor, intenta de nuevo.');
         });
-    });
+    });    
 
     document.getElementById('eliminar-form').addEventListener('submit', function(event) {
         event.preventDefault();
@@ -146,38 +154,55 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
+    // Función para cargar y mostrar el modal de edición
     window.loadEditarProducto = function(id) {
         fetchWithToken(`/api/productos/${id}/`)
             .then(response => response.json())
             .then(data => {
                 const form = document.getElementById('editar-form');
-                form.querySelector('input[name="id"]').value = data.id;
+                form.querySelector('input[name="id"]').value = data.id;  // Aquí se asegura que el ID esté presente
                 form.querySelector('input[name="nombre"]').value = data.nombre;
                 form.querySelector('input[name="categoria"]').value = data.categoria;
                 form.querySelector('textarea[name="descripcion"]').value = data.descripcion;
                 form.querySelector('input[name="precio"]').value = data.precio;
                 form.querySelector('input[name="cantidad_disponible"]').value = data.cantidad_disponible;
-                showSection('editar-producto');
+    
+                // Mostrar el modal de edición
+                const overlay = document.getElementById('overlay');
+                const editarModal = document.getElementById('editar-producto');
+                overlay.style.display = 'block';
+                editarModal.style.display = 'block';
             })
             .catch(error => {
                 console.error('Error al cargar datos del producto:', error);
                 alert('Error al cargar datos del producto. Por favor, intenta de nuevo.');
             });
     }
-
-    window.loadEliminarProducto = function(id) {
-        fetchWithToken(`/api/productos/${id}/`)
-            .then(response => response.json())
-            .then(data => {
-                const form = document.getElementById('eliminar-form');
-                form.querySelector('input[name="id"]').value = data.id;
-                showSection('eliminar-producto');
-            })
-            .catch(error => {
-                console.error('Error al cargar datos del producto:', error);
-                alert('Error al cargar datos del producto. Por favor, intenta de nuevo.');
-            });
-    }
+    
+    document.getElementById('editar-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(this);
+        const id = formData.get('id');  // Obtén el ID desde el formulario
+        fetchWithToken(`/api/productos/${id}/`, {
+            method: 'PUT',
+            body: formData,
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.text().then(text => { throw new Error(text); });
+            }
+            return response.json();
+        })
+        .then(data => {
+            alert('Producto actualizado exitosamente');
+            listarBtn.click();  // Vuelve a la lista de productos
+        })
+        .catch(error => {
+            console.error('Error al actualizar producto:', error);
+            alert('Error al actualizar producto. Por favor, intenta de nuevo.');
+        });
+    });
+    
 
     // Función para manejar la autenticación y los tokens
     function fetchWithToken(url, options = {}) {
@@ -193,6 +218,7 @@ document.addEventListener("DOMContentLoaded", function() {
             if (response.status === 401) {
                 console.error('Token expirado, redirigiendo a la autenticación.');
                 alert('La sesión ha expirado. Por favor, inicie sesión nuevamente.');
+                clearStorageAndCookies(); // Limpiar cualquier token almacenado
                 window.location.href = '/api/auth/';
             }
             return response;
@@ -206,7 +232,6 @@ document.addEventListener("DOMContentLoaded", function() {
             const cookies = document.cookie.split(';');
             for (let i = 0; i < cookies.length; i++) {
                 const cookie = cookies[i].trim();
-                // Does this cookie string begin with the name we want?
                 if (cookie.substring(0, name.length + 1) === (name + '=')) {
                     cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                     break;
@@ -215,4 +240,40 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         return cookieValue;
     }
+
+    // Función para eliminar todas las cookies
+    function deleteAllCookies() {
+        document.cookie.split(";").forEach(function(c) {
+            document.cookie = c.trim().split("=")[0] + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
+        });
+    }
+
+    // Función para limpiar `localStorage` y cookies
+    function clearStorageAndCookies() {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+        deleteAllCookies();
+    }
+
+    // Llama a esta función cuando el usuario cierre sesión
+    document.getElementById('logout-btn').addEventListener('click', function() {
+        clearStorageAndCookies();
+        window.location.href = '/login';  // Redirigir a la página de inicio de sesión
+    });
+
+   // Cerrar modal al hacer clic en el overlay
+    overlay.addEventListener('click', function() {
+        overlay.style.display = 'none';
+        listarModal.style.display = 'none'; 
+        editarModal.style.display = 'none';
+    });
+
+    // Cerrar modal al presionar "Escape"
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            overlay.style.display = 'none';
+            listarModal.style.display = 'none';
+            editarModal.style.display = 'none';
+        }
+    });
 });

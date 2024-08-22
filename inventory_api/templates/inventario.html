@@ -10,10 +10,7 @@
     <link rel="stylesheet" href="{% static 'css/token_exp.css' %}">
 </head>
 <body>
-    <div class="container">
-        <div id="session-timer" style="position: absolute; top: 10px; right: 10px;">
-            Tiempo restante de la sesión: <span id="timer"></span>
-        </div>
+    <div class="container">        
         
         <h1>Gestión de Productos</h1>
 
@@ -28,11 +25,19 @@
 
         <div id="content">
             <!-- Aquí se cargará el contenido dinámicamente -->
-            <div id="listar-productos" class="content-section" style="display:none;">
-                <h2>Lista de Productos</h2>
+            
+
+            <!-- Overlay y el contenedor modal para Crear Producto -->
+
+        <div id="overlay" style="display:none;"></div>
+
+        <div id="listar-productos" class="content-section modal" style="display:none;">
+            <h2>Lista de Productos</h2>
+            <div id="table-container">
                 <table id="productos-table">
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Nombre</th>
                             <th>Categoría</th>
                             <th>Descripción</th>
@@ -46,33 +51,101 @@
                     </tbody>
                 </table>
             </div>
+        </div>
 
-            <div id="crear-producto" class="content-section" style="display:none;">
-                <h2>Crear Producto</h2>
-                <form id="crear-form">
-                    {% csrf_token %}
-                    <input type="text" name="nombre" placeholder="Nombre del producto" required>
-                    <input type="text" name="categoria" placeholder="Categoría" required>
-                    <textarea name="descripcion" placeholder="Descripción"></textarea>
-                    <input type="number" name="precio" placeholder="Precio" required>
-                    <input type="number" name="cantidad_disponible" placeholder="Cantidad disponible" required>
-                    <button type="submit">Crear</button>
-                </form>
+            <div id="crear-producto" class="content-section modal" style="display:none;">
+                <div class="container">
+                    <div class="card">
+                        <div class="header">
+                            <a class="singup">Crear Producto</a>
+                        </div>
+            
+                        <form id="crear-form">
+                            {% csrf_token %}
+                            <div class="form-grid">
+                                <div class="inputBox1">
+                                    <input type="text" name="nombre" required="required">
+                                    <span class="user">Nombre</span>
+                                </div>
+            
+                                <div class="inputBox">
+                                    <input type="number" name="precio" required="required">
+                                    <span>Precio</span>
+                                </div>
+            
+                                <div class="inputBox1">
+                                    <input type="text" name="categoria" required="required">
+                                    <span class="user">Categoría</span>
+                                </div>
+            
+                                <div class="inputBox">
+                                    <input type="number" name="cantidad_disponible" required="required">
+                                    <span>Cantidad disponible</span>
+                                </div>
+            
+                                <div class="inputBox1 full-width">
+                                    <textarea name="descripcion" required="required"></textarea>
+                                    <span class="user">Descripción</span>
+                                </div>
+                                
+                            </div>
+            
+                            <div class="button-container">
+                                <button type="submit" class="enter">Crear</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
 
-            <div id="editar-producto" class="content-section" style="display:none;">
-                <h2>Editar Producto</h2>
-                <form id="editar-form">
-                    {% csrf_token %}
-                    <input type="hidden" name="id">
-                    <input type="text" name="nombre" placeholder="Nombre del producto" required>
-                    <input type="text" name="categoria" placeholder="Categoría" required>
-                    <textarea name="descripcion" placeholder="Descripción"></textarea>
-                    <input type="number" name="precio" placeholder="Precio" required>
-                    <input type="number" name="cantidad_disponible" placeholder="Cantidad disponible" required>
-                    <button type="submit">Actualizar</button>
-                </form>
+            <div id="editar-producto" class="content-section modal" style="display:none;">
+                <div class="container">
+                    <div class="card">
+                        <div class="header">
+                            <a class="singup">Editar Producto</a>
+                        </div>
+            
+                        <form id="editar-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="id">
+                            <div class="form-grid">
+                                <div class="inputBox1">
+                                    <input type="text" name="nombre" required="required">
+                                    <span class="user">Nombre</span>
+                                </div>
+            
+                                <div class="inputBox">
+                                    <input type="number" name="precio" required="required">
+                                    <span>Precio</span>
+                                </div>
+            
+                                <div class="inputBox1">
+                                    <input type="text" name="categoria" required="required">
+                                    <span class="user">Categoría</span>
+                                </div>
+            
+                                <div class="inputBox">
+                                    <input type="number" name="cantidad_disponible" required="required">
+                                    <span>Cantidad disponible</span>
+                                </div>
+            
+                                <div class="inputBox1 full-width">
+                                    <textarea name="descripcion" required="required"></textarea>
+                                    <span class="user">Descripción</span>
+                                </div>
+                            </div>
+            
+                            <div class="button-container">
+                                <button type="submit" class="enter">Actualizar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
+            <!-- Fin del modal -->
+            
+
+            
 
             <div id="eliminar-producto" class="content-section" style="display:none;">
                 <h2>Eliminar Producto</h2>

@@ -1,0 +1,240 @@
+
+
+/* Contenedor del modal centrado */
+
+/* Evitar que el body tenga margen o padding que afecte la posición del modal */
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Para evitar el scroll si el modal se muestra */
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+/* Estilo existente, sin modificaciones */
+.singup {
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: block;
+    font-weight: bold;
+    font-size: x-large;
+    text-align: center;
+    margin-top: 1em;
+    margin-bottom: 2em;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 400px;
+    width: 650px;
+    padding: 20px;
+    padding-bottom: 4em;
+    border-radius: 15px;
+    background: #e3e3e3;
+    box-shadow: 16px 16px 32px #c8c8c8, -16px -16px 32px #fefefe;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 35px;
+    width: 100%;
+}
+
+.inputBox,
+.inputBox1 {
+    position: relative;
+    width: 100%;
+}
+
+.full-width {
+    grid-column: span 2;
+}
+
+.inputBox input,
+.inputBox1 input {
+    width: 100%;
+    padding: 10px;
+    outline: none;
+    border: none;
+    color: #000;
+    font-size: 1em;
+    background: transparent;
+    border-left: 2px solid #000;
+    border-bottom: 2px solid #000;
+    transition: 0.1s;
+    border-bottom-left-radius: 8px;
+}
+
+.inputBox span,
+.inputBox1 span {
+    position: absolute;
+    left: 0;
+    transform: translateY(-4px);
+    margin-left: 10px;
+    padding: 10px;
+    pointer-events: none;
+    font-size: 10px;
+    color: #000;
+    text-transform: uppercase;
+    transition: 0.5s;
+    letter-spacing: 3px;
+    border-radius: 8px;
+}
+
+/* Ajustes específicos para el textarea */
+.inputBox1 textarea {
+    width: 100%;
+    padding: 10px;
+    outline: none;
+    border: none;
+    color: #000;
+    font-size: 1em;
+    background: transparent;
+    border-left: 2px solid #000;
+    border-bottom: 2px solid #000;
+    transition: 0.1s;
+    border-bottom-left-radius: 8px;
+    resize: none; /* Desactiva el redimensionamiento */
+    height: 100px; /* Fija una altura para el textarea */
+}
+
+.inputBox1 textarea:valid~span,
+.inputBox1 textarea:focus~span {
+    transform: translateX(10px) translateY(-15px);
+    font-size: 0.8em;
+    padding: 5px 10px;
+    background: #000;
+    letter-spacing: 0.2em;
+    color: #fff;
+    border: 2px;
+}
+
+.inputBox1 textarea:valid,
+.inputBox1 textarea:focus {
+    border: 2px solid #000;
+    border-radius: 8px;
+}
+
+.inputBox input:valid~span,
+.inputBox input:focus~span,
+.inputBox1 input:valid~span,
+.inputBox1 input:focus~span {
+    transform: translateX(10px) translateY(-15px);
+    font-size: 0.8em;
+    padding: 5px 10px;
+    background: #000;
+    letter-spacing: 0.2em;
+    color: #fff;
+    border: 2px;
+}
+
+.inputBox input:valid,
+.inputBox input:focus,
+.inputBox1 input:valid,
+.inputBox1 input:focus {
+    border: 2px solid #000;
+    border-radius: 8px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.enter {
+    height: 45px;
+    margin-top: 4em;
+    width: 100px;
+    border-radius: 5px;
+    border: 2px solid #000;
+    cursor: pointer;
+    background-color: transparent;
+    transition: 0.5s;
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+.enter:hover {
+    background-color: rgb(0, 0, 0);
+    color: white;
+}
+
+/* Estilo específico para la lista de productos */
+#listar-productos .card, #editar-producto .card {
+    width: 100%;
+    max-width: 800px;
+}
+
+#table-container {
+    display: flex;
+    justify-content: center; /* Centrará horizontalmente el contenido del contenedor */
+    margin-top: 20px;
+}
+
+#productos-table {
+    width: 80%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+    font-family: "Courier New", Courier, monospace;
+}
+
+
+#productos-table th, #productos-table td {
+    
+    padding: 8px;
+    border-radius: 12px;
+}
+
+#productos-table th {
+    color: white;
+    background: #2c2c2c;
+    text-align: center;
+}
+
+#productos-table tr {
+    background-color: #CBCBCB;
+}
+
+#productos-table tr:nth-child(even) {
+    background-color: white;
+}
+
+#productos-table tr:hover {
+    border-bottom: 2px #2c2c2c;
+}
+
+#productos-table td {
+    text-align: center;
+}
+
+button {
+    height: 20px;
+    width: 90px;
+    border-radius: 5px;
+    border: 2px solid #000;
+    cursor: pointer;
+    background-color: transparent;
+    transition: 0.5s;
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+button:hover {
+    background-color: rgb(0, 0, 0);
+    color: white;
+}
