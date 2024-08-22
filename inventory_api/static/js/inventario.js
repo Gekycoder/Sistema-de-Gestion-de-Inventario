@@ -2,9 +2,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const contentSections = document.querySelectorAll('.content-section');
     const listarBtn = document.getElementById('listar-btn');
     const crearBtn = document.getElementById('crear-btn');
-    const eliminarBtn = document.getElementById('eliminar-btn');
-    const buscarBtn = document.getElementById('buscar-btn');
-    const buscarInput = document.getElementById('buscar-input');
+    
+
 
     let accessToken = localStorage.getItem('access_token');
     let refreshToken = localStorage.getItem('refresh_token');
@@ -43,18 +42,6 @@ document.addEventListener("DOMContentLoaded", function() {
         showSection('crear-producto');
     });
 
-    eliminarBtn.addEventListener('click', function() {
-        showSection('eliminar-producto');
-    });
-
-    buscarBtn.addEventListener('click', function() {
-        const query = buscarInput.value.trim();
-        if (query) {
-            fetchProductos(query);
-        } else {
-            alert("Por favor ingrese un término de búsqueda.");
-        }
-    });
 
     function fetchProductos(query = '') {
         let url = '/api/productos/';
@@ -136,23 +123,73 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });    
 
+
+// Función para manejar la carga del modal de eliminación y confirmar la eliminación
+    window.loadEliminarProducto = function(id) {
+        // Cargar el ID del producto en el formulario de confirmación
+        const form = document.getElementById('eliminar-form');
+        form.querySelector('input[name="id"]').value = id;
+        
+        // Mostrar el modal de confirmación
+        const overlay = document.getElementById('overlay');
+        const confirmarEliminacionModal = document.getElementById('confirmar-eliminacion');
+        overlay.style.display = 'block';
+        confirmarEliminacionModal.style.display = 'block';
+    };
+
+// Manejo de la confirmación de eliminación
     document.getElementById('eliminar-form').addEventListener('submit', function(event) {
         event.preventDefault();
         const formData = new FormData(this);
-        fetchWithToken(`/api/productos/${formData.get('id')}/`, {
-            method: 'DELETE',
-            body: formData,
+        const id = formData.get('id');  // Obtén el ID desde el formulario
+        
+        fetchWithToken(`/api/productos/${id}/`, {
+            method: 'DELETE'
         })
-        .then(response => response.json())
-        .then(data => {
+        .then(response => {
+            if (!response.ok) {
+                return response.text().then(text => { throw new Error(text); });
+            }
             alert('Producto eliminado exitosamente');
-            listarBtn.click();  // Vuelve a la lista de productos
+            fetchProductos(); // Refrescar la lista de productos
+            // Cerrar el modal después de eliminar
+            const overlay = document.getElementById('overlay');
+            const confirmarEliminacionModal = document.getElementById('confirmar-eliminacion');
+            overlay.style.display = 'none';
+            confirmarEliminacionModal.style.display = 'none';
         })
         .catch(error => {
             console.error('Error al eliminar producto:', error);
             alert('Error al eliminar producto. Por favor, intenta de nuevo.');
         });
     });
+
+    // Cerrar modal al hacer clic en el overlay
+    const overlay = document.getElementById('overlay');
+    overlay.addEventListener('click', function() {
+        overlay.style.display = 'none';
+        const confirmarEliminacionModal = document.getElementById('confirmar-eliminacion');
+        confirmarEliminacionModal.style.display = 'none';
+    });
+
+    // Cerrar modal al presionar "Escape"
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            overlay.style.display = 'none';
+            const confirmarEliminacionModal = document.getElementById('confirmar-eliminacion');
+            confirmarEliminacionModal.style.display = 'none';
+        }
+    });
+
+    // Cerrar modal al hacer clic en "Cancelar"
+    document.getElementById('cancelar-btn').addEventListener('click', function() {
+        overlay.style.display = 'none';
+        const confirmarEliminacionModal = document.getElementById('confirmar-eliminacion');
+        confirmarEliminacionModal.style.display = 'none';
+    });
+
+
+
 
     // Función para cargar y mostrar el modal de edición
     window.loadEditarProducto = function(id) {
@@ -275,5 +312,25 @@ document.addEventListener("DOMContentLoaded", function() {
             listarModal.style.display = 'none';
             editarModal.style.display = 'none';
         }
+    });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    const overlay = document.getElementById('overlay');
+
+    // Selecciona todos los botones de cancelar (con ambas clases)
+    const cancelarEditarBtns = document.querySelectorAll('.xBtn, .xBtn2');
+
+    cancelarEditarBtns.forEach(button => {
+        button.addEventListener('click', function() {
+            overlay.style.display = 'none';
+
+            // Ocultar todos los modales
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                modal.style.display = 'none';
+            });
+        });
     });
 });

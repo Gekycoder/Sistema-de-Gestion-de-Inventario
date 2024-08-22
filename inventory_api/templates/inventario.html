@@ -18,9 +18,6 @@
             <button id="listar-btn">Listar Productos</button>
             <button id="crear-btn">Crear Producto</button>
             <button id="editar-btn">Editar Producto</button>
-            <button id="eliminar-btn">Eliminar Producto</button>
-            <input type="text" id="buscar-input" placeholder="Buscar por nombre">
-            <button id="buscar-btn">Buscar</button>
         </div>
 
         <div id="content">
@@ -31,27 +28,45 @@
 
         <div id="overlay" style="display:none;"></div>
 
-        <div id="listar-productos" class="content-section modal" style="display:none;">
-            <h2>Lista de Productos</h2>
-            <div id="table-container">
-                <table id="productos-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Categoría</th>
-                            <th>Descripción</th>
-                            <th>Precio</th>
-                            <th>Cantidad</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Los productos se cargarán aquí -->
-                    </tbody>
-                </table>
+            <div id="listar-productos" class="content-section modal" style="display:none;">
+
+                <!-- Botón de Cancelación en Círculo -->
+                <button class="xBtn" id="cancelar-editar">
+                    <div class="xSign">
+                        <svg viewBox="0 0 320 512">
+                            <path d="M310.6 361.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L160 301.3 54.6 406.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L114.7 256 9.4 150.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 210.7 265.4 105.4c12.5-12.5 32.8-12.5 45.3 0s12.5 32.8 0 45.3L205.3 256 310.6 361.4z"/>
+                        </svg>
+                    </div>
+                    <div class="xText">Cancelar</div>
+                </button>
+
+                <input type="text" id="buscar-input" placeholder="Buscar por nombre o categoría">
+
+                <div class="h2-container">
+                    <h2>Lista de Productos</h2>
+                </div>
+
+                <div id="table-container">
+                    <table id="productos-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Categoría</th>
+                                <th>Descripción</th>
+                                <th>Precio</th>
+                                <th>Cantidad</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Los productos se cargarán aquí -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
+
+
 
             <div id="crear-producto" class="content-section modal" style="display:none;">
                 <div class="container">
@@ -59,6 +74,16 @@
                         <div class="header">
                             <a class="singup">Crear Producto</a>
                         </div>
+
+                        <!-- Botón de Cancelación en Círculo -->
+                        <button class="xBtn2" id="cancelar-editar">
+                            <div class="xSign2">
+                                <svg viewBox="0 0 320 512">
+                                    <path d="M310.6 361.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L160 301.3 54.6 406.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L114.7 256 9.4 150.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 210.7 265.4 105.4c12.5-12.5 32.8-12.5 45.3 0s12.5 32.8 0 45.3L205.3 256 310.6 361.4z"/>
+                                </svg>
+                            </div>
+                            <div class="xText2">Cancelar</div>
+                        </button>
             
                         <form id="crear-form">
                             {% csrf_token %}
@@ -104,6 +129,16 @@
                         <div class="header">
                             <a class="singup">Editar Producto</a>
                         </div>
+
+                        <!-- Botón de Cancelación en Círculo -->
+                        <button class="xBtn2" id="cancelar-editar">
+                            <div class="xSign2">
+                                <svg viewBox="0 0 320 512">
+                                    <path d="M310.6 361.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L160 301.3 54.6 406.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L114.7 256 9.4 150.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 210.7 265.4 105.4c12.5-12.5 32.8-12.5 45.3 0s12.5 32.8 0 45.3L205.3 256 310.6 361.4z"/>
+                                </svg>
+                            </div>
+                            <div class="xText2">Cancelar</div>
+                        </button>
             
                         <form id="editar-form">
                             {% csrf_token %}
@@ -142,26 +177,40 @@
                     </div>
                 </div>
             </div>
+
+           <div id="confirmar-eliminacion" class="content-section modal" style="display:none;">
+                <div class="container">
+                    <div class="card-eliminar">
+                        <div class="header">
+                            <a class="singup">Eliminar producto</a>
+                        </div>
+            
+                        <form id="eliminar-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="id">
+                            <p>¿Estás seguro de que deseas eliminar este producto?</p>
+                            <div class="button-container">
+                                <button type="submit" class="btn-eliminar">Eliminar</button>
+                                <button type="button" id="cancelar-btn" class="btn-cancelar">Cancelar</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+
             <!-- Fin del modal -->
             
 
-            
-
-            <div id="eliminar-producto" class="content-section" style="display:none;">
-                <h2>Eliminar Producto</h2>
-                <form id="eliminar-form">
-                    {% csrf_token %}
-                    <input type="hidden" name="id">
-                    <p>¿Estás seguro de que deseas eliminar este producto?</p>
-                    <button type="submit">Eliminar</button>
-                </form>
-            </div>
         </div>
     </div>
 
     
     <script src="{% static 'js/auth.js' %}"></script>
     <script src="{% static 'js/inventario.js' %}"></script>
+    <script src="{% static 'js/filtro_de_busqueda.js' %}"></script>
     
 </body>
 </html>
