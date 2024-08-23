@@ -1,7 +1,5 @@
 
 
-/* Contenedor del modal centrado */
-
 /* Evitar que el body tenga margen o padding que afecte la posición del modal */
 body {
     margin: 0;
@@ -9,7 +7,7 @@ body {
     overflow: hidden; /* Para evitar el scroll si el modal se muestra */
 }
 
-.container {
+.container{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,7 +15,35 @@ body {
     width: 100%;
 }
 
-/* Estilo existente, sin modificaciones */
+.title {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 3em;
+  text-align: center;
+  margin-top: 2em;
+  margin-bottom: 1.5em;
+}
+
+.container-home {
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  width: 100%; 
+  margin: 0 auto; 
+}
+
+
+.container-home .nav {
+  display: grid;
+  grid-template: 1fr 1fr / 1fr 1fr;
+  gap: 50px;
+  row-gap: 50px;
+  justify-items: center;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+}
+
+/* Botones de formulario para crear y editar producto */
 .singup {
     color: #000;
     text-transform: uppercase;
@@ -193,7 +219,7 @@ body {
 
 #table-container {
     display: flex;
-    justify-content: center; /* Centrará horizontalmente el contenido del contenedor */
+    justify-content: center;
     margin-top: 20px;
 }
 
@@ -266,7 +292,7 @@ button:hover,
     text-transform: uppercase;
     font-size: 10px;
     letter-spacing: 2px;
-    margin: 5px;  /* Añade un margen entre los botones */
+    margin: 5px;  /* Añade un margen entre los botones de cancelar y eliminar de la seccion eliminar producto*/
 }
 
 /* Estilos para el botón con la X */
@@ -293,7 +319,7 @@ button:hover,
     background-color: #ffffff00;
 }
 
-  /* Símbolo de X */
+  /* Símbolo de X de la seccion listar produtos*/
   .xSign {
     width: 100%;
     transition-duration: 0.3s;
@@ -323,6 +349,7 @@ button:hover,
   
   /* Efecto hover en el botón */
   .xBtn:hover {
+    margin-left: 74%;
     background-color: rgb(255, 255, 255);
     padding-right: 5px;
     width: 135px;
@@ -353,10 +380,10 @@ button:hover,
     transform: translate(2px, 2px);
   }
   
+  /* Fin estilo del símbolo de X de la seccion listar produtos*/
 
 
-
-  /* Símbolo de X2 */
+  /* Símbolo de X2 de la seccion editar y crear productos*/
 
   .xBtn2 {
     display: flex;
@@ -437,6 +464,7 @@ button:hover,
     transform: translate(2px, 2px);
   }
 
+/* Fin de estilo del símbolo de X2 de la seccion editar y crear productos*/
 
 
   .h2-container {
@@ -469,40 +497,44 @@ button:hover,
 }
 
 
+/* Botones de la seccion principal de inventario, listar, crear, django y swagger*/
+
 #listar-btn, 
-#crear-btn{
-    height: 40px;
-    width: 15rem;
-    border-radius: 5px;
-    border: 2px solid #000;
-    cursor: pointer;
-    background-color: transparent;
-    transition: 0.5s;
-    text-transform: uppercase;
-    font-size: 10px;
-    letter-spacing: 2px;
+#crear-btn, 
+#swagger-ui-btn, 
+#django-admin-btn {
+  height: 123px;
+  width: 31rem;
+  border-radius: 5px;
+  border: 2px solid #000;
+  cursor: pointer;
+  background-color: transparent;
+  transition: 0.5s;
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: 12px;
 }
 
 
 #listar-btn:hover,
-#crear-btn:hover {
-    height: 40px;
-    width: 15rem;
-    border-radius: 5px;
-    border: 2px solid #000;
-    cursor: pointer;
+#crear-btn:hover,
+#swagger-ui-btn:hover,
+#django-admin-btn:hover {
+    
+    color: #ffffff;
     background-color: black;
-    transition: 0.5s;
-    text-transform: uppercase;
-    letter-spacing: 2px;
 }
 
+/* Fin de estilo de botones de la seccion principal de inventario, listar, crear, django y swagger*/
 
+
+
+/* Filtro de busqueda por nombre o categoria*/
 #buscar-input {
     position: absolute;
     display: flex;
     top: 17.2em;
-    left: 23em;
+    left: 25em;
     height: 1.65rem;
     width: 13rem;
     border-radius: 5px;
@@ -520,5 +552,76 @@ button:hover,
 }
 
 #buscar-input::placeholder {
-    color: #ffffff; /* Cambia el color del texto del placeholder */
+    color: #ffffff; 
+}
+
+
+.filter-container {
+  top: 9em;
+  left: 9.7em;
+  position: absolute;
+  display: inline-block;
+}
+
+#filter-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+#filter-btn svg {
+  width: 24px;
+  height: 24px;
+  fill: white;
+}
+
+.filter-options {
+  display: none;
+  top: 0.2´xpx;
+  position: absolute;
+  min-width: 120px;
+  z-index: 1;
+}
+
+.filter-options button {
+  color: black;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  text-decoration: none;
+  display: block;
+  background-color: #CBCBCB;
+  width: 100%;
+  text-align: center;
+  border-radius: 12px;
+  border: #f9f9f9;
+}
+
+.filter-options button:hover {
+  border-radius: 12px solid #2c2c2c;
+  background-color: #2c2c2c;
+  color: #ffffff;
+}
+
+.filter-container:hover .filter-options {
+  display: block;
+  background-color: #00000000;
+}
+
+/* Fin de estilo de iltro de busqueda por nombre o categoria*/
+
+
+
+.disclaimer {
+  font-family: "Courier New", Courier, monospace;
+  text-align: center;
+  font-size: 12px;
+  color: #555;
+  margin-top: 50px;
+  padding: 20px 0;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
 }

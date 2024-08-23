@@ -1,5 +1,20 @@
 document.addEventListener("DOMContentLoaded", function() {
     const buscarInput = document.getElementById('buscar-input');
+    let searchType = 'nombre';  // Por defecto, la búsqueda es por nombre
+
+    // Configuración del filtro
+    const filterNameBtn = document.getElementById('filter-name');
+    const filterCategoryBtn = document.getElementById('filter-category');
+
+    filterNameBtn.addEventListener('click', function() {
+        searchType = 'nombre';
+        buscarInput.placeholder = 'Buscar por nombre';
+    });
+
+    filterCategoryBtn.addEventListener('click', function() {
+        searchType = 'categoria';
+        buscarInput.placeholder = 'Buscar por categoría';
+    });
 
     // Evento de búsqueda en tiempo real
     buscarInput.addEventListener('input', function() {
@@ -30,16 +45,16 @@ document.addEventListener("DOMContentLoaded", function() {
                 const tbody = document.querySelector('#productos-table tbody');
                 tbody.innerHTML = '';
                 
-                // Filtrar productos solo si hay una búsqueda
+                // Filtrar productos según el tipo de búsqueda
                 let filteredData = data;
                 if (query) {
                     filteredData = data.filter(producto => 
-                        producto.nombre.toLowerCase().includes(query.toLowerCase())
+                        producto[searchType].toLowerCase().includes(query.toLowerCase())
                     );
                 }
 
-                // Ordenar los productos alfabéticamente por nombre
-                filteredData.sort((a, b) => a.nombre.localeCompare(b.nombre));
+                // Ordenar los productos alfabéticamente por el campo de búsqueda actual
+                filteredData.sort((a, b) => a[searchType].localeCompare(b[searchType]));
 
                 // Renderizar las filas de los productos filtrados
                 filteredData.forEach(producto => {

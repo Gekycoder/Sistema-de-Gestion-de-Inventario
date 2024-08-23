@@ -10,15 +10,23 @@
     <link rel="stylesheet" href="{% static 'css/token_exp.css' %}">
 </head>
 <body>
-    <div class="container">        
-        
-        <h1>Gestión de Productos</h1>
+
+    <h1 class="title">Gestión de Productos</h1>
+
+    <div class="container-home">  
 
         <div class="nav">
             <button id="listar-btn">Listar Productos</button>
             <button id="crear-btn">Crear Producto</button>
+            <button id="django-admin-btn" onclick="window.location.href='/admin/'">Django Admin</button>
+            <button id="swagger-ui-btn" onclick="window.location.href='/schema/swagger/'">Swagger UI</button>            
+
             <button id="editar-btn">Editar Producto</button>
         </div>
+    </div>
+
+    <div class="container">        
+        
 
         <div id="content">
             <!-- Aquí se cargará el contenido dinámicamente -->
@@ -39,6 +47,19 @@
                     </div>
                     <div class="xText">Cancelar</div>
                 </button>
+
+                <!-- Botón de Filtro con menú desplegable -->
+                <div class="filter-container">
+                    <button id="filter-btn">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M3 6l3 4v5l3 2V6H3zm15 0v11l3-2V10l3-4h-6zm-4 0h-2v13l2 2V6z" />
+                        </svg>
+                    </button>
+                    <div id="filter-options" class="filter-options">
+                        <button id="filter-name">Nombre</button>
+                        <button id="filter-category">Categoría</button>
+                    </div>
+                </div>
 
                 <input type="text" id="buscar-input" placeholder="Buscar por nombre o categoría">
 
@@ -94,9 +115,10 @@
                                 </div>
             
                                 <div class="inputBox">
-                                    <input type="number" name="precio" required="required">
+                                    <input type="number" name="precio" required="required" min="0" oninput="validity.valid||(value='');">
                                     <span>Precio</span>
                                 </div>
+                                
             
                                 <div class="inputBox1">
                                     <input type="text" name="categoria" required="required">
@@ -104,7 +126,7 @@
                                 </div>
             
                                 <div class="inputBox">
-                                    <input type="number" name="cantidad_disponible" required="required">
+                                    <input type="number" name="cantidad_disponible" required="required"min="0" oninput="validity.valid||(value='');">
                                     <span>Cantidad disponible</span>
                                 </div>
             
@@ -150,7 +172,7 @@
                                 </div>
             
                                 <div class="inputBox">
-                                    <input type="number" name="precio" required="required">
+                                    <input type="number" name="precio" required="required" min="0" oninput="validity.valid||(value='');">
                                     <span>Precio</span>
                                 </div>
             
@@ -160,7 +182,7 @@
                                 </div>
             
                                 <div class="inputBox">
-                                    <input type="number" name="cantidad_disponible" required="required">
+                                    <input type="number" name="cantidad_disponible" required="required" min="0" oninput="validity.valid||(value='');">
                                     <span>Cantidad disponible</span>
                                 </div>
             
@@ -206,6 +228,12 @@
 
         </div>
     </div>
+
+    <div class="disclaimer">
+        <p>Challenge técnico para GRUPO NUEVE ONCE, C.A., cuyo propósito es demostrar habilidades técnicas.</p>
+    </div>
+    
+    
 
     
     <script src="{% static 'js/auth.js' %}"></script>

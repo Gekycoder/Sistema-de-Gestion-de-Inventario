@@ -48,39 +48,51 @@ document.addEventListener("DOMContentLoaded", function() {
         if (query) {
             url += `?search=${query}`;
         }
+    
         console.log('URL de la solicitud:', url);
-
+    
         fetchWithToken(url)
-            .then(response => response.json())
+            .then(response => {
+                if (response.status === 401) {
+                    console.error('Token expirado o inválido, redirigiendo a autenticación.');
+                    clearStorageAndCookies();
+                    window.location.href = '/api/auth/';
+                    return;
+                }
+                return response.json();
+            })
             .then(data => {
                 console.log('Respuesta de la API:', data);
                 const tbody = document.querySelector('#productos-table tbody');
                 tbody.innerHTML = '';
-                data.forEach(producto => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td>${producto.id}</td>
-                        <td>${producto.nombre}</td>
-                        <td>${producto.categoria}</td>
-                        <td>${producto.descripcion}</td>
-                        <td>${producto.precio}</td>
-                        <td>${producto.cantidad_disponible}</td>
-                        <td>
-                            <button onclick="loadEditarProducto(${producto.id})">Editar</button>
-                            <button onclick="loadEliminarProducto(${producto.id})">Eliminar</button>
-                        </td>
-                    `;
-                    tbody.appendChild(tr);
-                });
+                if (data) {
+                    data.forEach(producto => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${producto.id}</td>
+                            <td>${producto.nombre}</td>
+                            <td>${producto.categoria}</td>
+                            <td>${producto.descripcion}</td>
+                            <td>${producto.precio}</td>
+                            <td>${producto.cantidad_disponible}</td>
+                            <td>
+                                <button onclick="loadEditarProducto(${producto.id})">Editar</button>
+                                <button onclick="loadEliminarProducto(${producto.id})">Eliminar</button>
+                            </td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                }
             })
             .catch(error => {
                 console.error('Error al listar productos:', error);
                 alert('Error al listar productos. Por favor, intenta de nuevo.');
             });
     }
+       
 
     document.getElementById('crear-form').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevenir el comportamiento predeterminado del formulario
+        event.preventDefault(); // Preveniene el comportamiento predeterminado del formulario
         const formData = new FormData(this);
     
         fetchWithToken('/api/productos/', {
@@ -141,7 +153,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('eliminar-form').addEventListener('submit', function(event) {
         event.preventDefault();
         const formData = new FormData(this);
-        const id = formData.get('id');  // Obtén el ID desde el formulario
+        const id = formData.get('id');  // Obtiene el ID desde el formulario
         
         fetchWithToken(`/api/productos/${id}/`, {
             method: 'DELETE'
@@ -151,8 +163,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 return response.text().then(text => { throw new Error(text); });
             }
             alert('Producto eliminado exitosamente');
-            fetchProductos(); // Refrescar la lista de productos
-            // Cerrar el modal después de eliminar
+            fetchProductos(); // Refresca la lista de productos
+            // Cierra el modal después de eliminar
             const overlay = document.getElementById('overlay');
             const confirmarEliminacionModal = document.getElementById('confirmar-eliminacion');
             overlay.style.display = 'none';
@@ -292,11 +304,6 @@ document.addEventListener("DOMContentLoaded", function() {
         deleteAllCookies();
     }
 
-    // Llama a esta función cuando el usuario cierre sesión
-    document.getElementById('logout-btn').addEventListener('click', function() {
-        clearStorageAndCookies();
-        window.location.href = '/login';  // Redirigir a la página de inicio de sesión
-    });
 
    // Cerrar modal al hacer clic en el overlay
     overlay.addEventListener('click', function() {
@@ -316,10 +323,12 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
+
+
 document.addEventListener("DOMContentLoaded", function() {
     const overlay = document.getElementById('overlay');
 
-    // Selecciona todos los botones de cancelar (con ambas clases)
+    // Selecciona todos los botones de cancelar (esto es unicamente para las X de listar crear o editar productos)
     const cancelarEditarBtns = document.querySelectorAll('.xBtn, .xBtn2');
 
     cancelarEditarBtns.forEach(button => {

@@ -14,3 +14,6 @@ class ProductoForm(forms.ModelForm):
     class Meta:
         model = Producto
         fields = ['nombre', 'categoria', 'descripcion', 'precio', 'cantidad_disponible']
+
+
+## Formularios que son utilizados en el frontend es decir el registro para signupform y lacreacion y edicion de productos para productoform

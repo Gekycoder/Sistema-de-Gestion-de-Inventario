@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (data.access_token && data.refresh_token) {
                     deleteAllCookies();
                     storeTokens(data.access_token, data.refresh_token);
-                    startSessionTimer(5 * 60); // Inicia el temporizador con 5 minutos
+                    startSessionTimer(3 * 60); // Inicia el temporizador con 3 minutos
                     window.location.href = '/api/inventario/';
                 } else {
                     console.error('Error en la autenticación:', data);
@@ -54,3 +54,17 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
  
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Verificar si hay una instrucción para limpiar localStorage
+    const clearLocalStorage = document.cookie.split(';').some(cookie => cookie.trim().startsWith('clear_localstorage='));
+
+    if (clearLocalStorage) {
+        // Limpiar localStorage
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+        // Remover la cookie para evitar futuras limpiezas innecesarias
+        document.cookie = 'clear_localstorage=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/';
+    }
+});
+

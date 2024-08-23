@@ -1,6 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
 
-# Create your models here.
 
 class Producto(models.Model):
     nombre = models.CharField(max_length=255)
@@ -11,8 +11,11 @@ class Producto(models.Model):
     creado_en = models.DateTimeField(auto_now_add=True)
     actualizado_en = models.DateTimeField(auto_now=True)
 
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='productos')   # Clave foranea para asignarle usuario (user determinado de django)
+                                                                                            # al usuairo que este autenticado
+
     def __str__(self):
         return self.nombre
 
     class Meta:
-        ordering = ['-creado_en']
+        ordering = ['-creado_en'] 

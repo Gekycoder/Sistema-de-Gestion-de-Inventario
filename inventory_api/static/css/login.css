@@ -202,7 +202,7 @@ body, html {
 }
 
 .alert {
-    color: red;
+    color: red; /* Color de los mensajes de error */
     font-size: 14px;
 }
 

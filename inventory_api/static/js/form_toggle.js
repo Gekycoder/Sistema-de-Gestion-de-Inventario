@@ -7,3 +7,5 @@ document.addEventListener("DOMContentLoaded", function() {
         document.querySelector('.card').classList.remove('flipped');
     });
 });
+
+// Permite el giro de la tarjeta
